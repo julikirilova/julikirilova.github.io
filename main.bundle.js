@@ -164,7 +164,7 @@ module.exports = ".main-header {\n    background-color: #99cccc;\n    display: -
 /***/ "./src/app/layout/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header class=\"main-header\">\n\n  <a (click)=\"smoothScroll($event, '#home')\" class=\"logo\" href=\"/#home\">\n      <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 131 97.48\">\n          <g id=\"Layer_2\" data-name=\"Layer 2\">\n              <g id=\"Layer_1-2\" data-name=\"Layer 1\">\n                  <rect class=\"cls-3\" x=\"3\" y=\"3\" width=\"125\" height=\"91.48\" rx=\"9.3\" ry=\"9.3\" fill=\"none\" stroke-miterlimit=\"10\" stroke-width=\"6\"\n                  />\n                  <rect class=\"cls-2\" x=\"99.54\" y=\"14.25\" width=\"6.83\" height=\"6.83\" rx=\"3.39\" ry=\"3.39\" />\n                  <rect class=\"cls-2\" x=\"16.27\" y=\"20.4\" width=\"6.83\" height=\"6.83\" rx=\"3.39\" ry=\"3.39\" />\n                  <path class=\"cls-2\" d=\"M110.46 58.62V23.81H96.81V32h5.46v26.62h-11.6v-47.1H77v8.2h5.46v38.9H70.87V23.81H57.22V32h5.46v26.62h-7.51a4.09 4.09 0 0 1-4.09-4.09V23.81h-15.7a12.29 12.29 0 0 0-12.21 10.92h-.08V73A4.09 4.09 0 0 1 19 77.05h-6.14v8.19H19A12.28 12.28 0 0 0 31.28 73V36.1a4.1 4.1 0 0 1 4.1-4.1h7.51v22.53a12.28 12.28 0 0 0 12.28 12.28h62.12v-8.19z\"\n                  />\n              </g>\n          </g>\n      </svg>\n  </a>\n\n  <nav class=\"main-header__nav\">\n\n      <ul class=\"main-header__ul\">\n\n          <li class=\"main-header__li\" *ngFor=\"let menu of menus\">\n              <a (click)=\"smoothScroll($event, menu.href)\" [class.main-header__a--active]=\"menu.isActive\" class=\"main-header__a\" href=\"{{menu.href}}\">{{menu.name}}</a>\n          </li>\n\n      </ul>\n\n  </nav>\n\n</header>\n"
+module.exports = "<header [ngClass]=\"{'main-header':true, 'main-header--transitioned': headerTransitioned}\">\n\n  <a (click)=\"smoothScroll($event, '#home')\" class=\"logo\" href=\"/#home\">\n      <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 131 97.48\">\n          <g id=\"Layer_2\" data-name=\"Layer 2\">\n              <g id=\"Layer_1-2\" data-name=\"Layer 1\">\n                  <rect class=\"cls-3\" x=\"3\" y=\"3\" width=\"125\" height=\"91.48\" rx=\"9.3\" ry=\"9.3\" fill=\"none\" stroke-miterlimit=\"10\" stroke-width=\"6\"\n                  />\n                  <rect class=\"cls-2\" x=\"99.54\" y=\"14.25\" width=\"6.83\" height=\"6.83\" rx=\"3.39\" ry=\"3.39\" />\n                  <rect class=\"cls-2\" x=\"16.27\" y=\"20.4\" width=\"6.83\" height=\"6.83\" rx=\"3.39\" ry=\"3.39\" />\n                  <path class=\"cls-2\" d=\"M110.46 58.62V23.81H96.81V32h5.46v26.62h-11.6v-47.1H77v8.2h5.46v38.9H70.87V23.81H57.22V32h5.46v26.62h-7.51a4.09 4.09 0 0 1-4.09-4.09V23.81h-15.7a12.29 12.29 0 0 0-12.21 10.92h-.08V73A4.09 4.09 0 0 1 19 77.05h-6.14v8.19H19A12.28 12.28 0 0 0 31.28 73V36.1a4.1 4.1 0 0 1 4.1-4.1h7.51v22.53a12.28 12.28 0 0 0 12.28 12.28h62.12v-8.19z\"\n                  />\n              </g>\n          </g>\n      </svg>\n  </a>\n\n  <nav class=\"main-header__nav\">\n\n      <ul class=\"main-header__ul\">\n\n          <li class=\"main-header__li\" *ngFor=\"let menu of menus\">\n              <a (click)=\"smoothScroll($event, menu.href)\" [class.main-header__a--active]=\"menu.isActive\" class=\"main-header__a\" href=\"{{menu.href}}\">{{menu.name}}</a>\n          </li>\n\n      </ul>\n\n  </nav>\n\n</header>\n"
 
 /***/ }),
 
@@ -220,6 +220,8 @@ var HeaderComponent = /** @class */ (function () {
                 isActive: false,
             },
         ];
+        this.headerScrolled = Object(__WEBPACK_IMPORTED_MODULE_2_lodash__["throttle"])(this.scrollEvent, 250, { 'leading': true });
+        this.headerTransitioned = false;
     }
     HeaderComponent.prototype.smoothScroll = function (e, param) {
         e.preventDefault();
@@ -227,7 +229,6 @@ var HeaderComponent = /** @class */ (function () {
         document.querySelector(param).scrollIntoView({ behavior: 'smooth' });
         this.menus.forEach(function (e) {
             if (e.href === param) {
-                console.log(e.href, param);
                 e.isActive = true;
             }
             else {
@@ -235,22 +236,30 @@ var HeaderComponent = /** @class */ (function () {
             }
         });
     };
+    HeaderComponent.prototype.onScroll = function () {
+        this.headerScrolled();
+    };
+    HeaderComponent.prototype.scrollEvent = function () {
+        // make injectable for the window object
+        if (window.pageYOffset > window.innerHeight - 1) {
+            this.headerTransitioned = true;
+        }
+        else {
+            this.headerTransitioned = false;
+        }
+    };
+    ;
     HeaderComponent.prototype.ngOnInit = function () {
         __WEBPACK_IMPORTED_MODULE_1_smoothscroll_polyfill__["polyfill"]();
     };
     HeaderComponent.prototype.ngAfterViewInit = function () {
-        var ele = this.el.nativeElement.querySelector('.main-header');
-        var headerTransition = function () {
-            if (window.pageYOffset > window.innerHeight - 1) {
-                ele.classList.add('main-header--transitioned');
-            }
-            else {
-                ele.classList.remove('main-header--transitioned');
-            }
-        };
-        var throttledHeaderTransition = Object(__WEBPACK_IMPORTED_MODULE_2_lodash__["throttle"])(headerTransition, 250, { 'leading': true });
-        window.addEventListener('scroll', throttledHeaderTransition);
     };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["y" /* HostListener */])('window:scroll', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", void 0)
+    ], HeaderComponent.prototype, "onScroll", null);
     HeaderComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-header',
@@ -603,14 +612,14 @@ var PagesModule = /** @class */ (function () {
 /***/ "./src/app/pages/skills/skills.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".skills {\n    position: relative;\n}\n\n\n.skills-wrapper {\n    background-color: #000;\n    border-radius: 75px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    height: 150px;\n    margin: 0 auto;\n    position: absolute;\n    top: calc(60% - 75px);\n    left: calc(50% - 75px);\n    width: 150px;\n}\n\n\n.skills-wrapper__title {\n    color: #fff;\n    font-size: 22px;\n    text-transform: uppercase;\n}\n\n\n.svg-wrapper {\n    position: absolute;\n    top: calc(50% - 75px);\n    left: calc(50% - 75px);\n    width: 150px;\n}\n\n\n.svg-wrapper:first-of-type {\n    -webkit-transform: rotate(270deg) translate(200px) rotate(-270deg);\n            transform: rotate(270deg) translate(200px) rotate(-270deg);\n}\n\n\n.svg-wrapper:nth-of-type(2) {\n    -webkit-transform: rotate(330deg) translate(200px) rotate(-330deg);\n            transform: rotate(330deg) translate(200px) rotate(-330deg);\n}\n\n\n.svg-wrapper:nth-of-type(3) {\n    -webkit-transform: rotate(30deg) translate(200px) rotate(-30deg);\n            transform: rotate(30deg) translate(200px) rotate(-30deg);\n}\n\n\n.svg-wrapper:nth-of-type(4) {\n    -webkit-transform: rotate(90deg) translate(200px) rotate(-90deg);\n            transform: rotate(90deg) translate(200px) rotate(-90deg);\n}\n\n\n.svg-wrapper:nth-of-type(5) {\n    -webkit-transform: rotate(150deg) translate(200px) rotate(-150deg);\n            transform: rotate(150deg) translate(200px) rotate(-150deg);\n}\n\n\n.svg-wrapper:nth-of-type(6) {\n    -webkit-transform: rotate(210deg) translate(200px) rotate(-210deg);\n            transform: rotate(210deg) translate(200px) rotate(-210deg);\n}\n\n\n.skill-circle {\n    stroke-dasharray: 534;\n    stroke-dashoffset: 534;\n    -webkit-transform: translate3d(0,0,0);\n            transform: translate3d(0,0,0);\n    -webkit-transform: rotate(-90deg);\n            transform: rotate(-90deg);\n    -webkit-transform-origin: 50% 50%;\n            transform-origin: 50% 50%;\n    -webkit-transition: all 2s ease;\n    transition: all 2s ease;\n    -webkit-box-shadow: 0 0 0 #000;\n            box-shadow: 0 0 0 #000;\n}"
 
 /***/ }),
 
 /***/ "./src/app/pages/skills/skills.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "    \n  <section id=\"skills\" class=\"skills\">\n\n      <div class=\"container\">\n          <h2 class=\"section-title\">skills</h2>\n\n      </div>\n\n  </section>\n"
+module.exports = "<section id=\"skills\" class=\"skills\">\n\n  <div class=\"container\">\n    <h2 class=\"section-title\">skills</h2>\n\n    <div class=\"skills-wrapper\">\n\n      <span class=\"skills-wrapper__title\">My Skills</span>\n\n      <div class=\"svg-wrapper\">\n        <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\">\n          <circle cx=\"50%\" cy=\"50%\" r=\"85\" style=\"stroke: #f2dac7; stroke-width: 27px; fill: #fff\" />\n          <circle class=\"skill-circle\" cx=\"50%\" cy=\"50%\" r=\"85\" style=\"stroke: #000; stroke-width: 27px; fill: none\" />\n          <text transform=\"translate(50.42 112.58)\" font-size=\"35\" font-family=\"Verdana, sans-serif\">HTML</text>\n        </svg>\n      </div>\n\n      <div class=\"svg-wrapper\">\n        <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\">\n          <circle cx=\"50%\" cy=\"50%\" r=\"85\" style=\"stroke: #f2dac7; stroke-width: 27px; fill: #fff\" />\n          <circle class=\"skill-circle\" cx=\"50%\" cy=\"50%\" r=\"85\" style=\"stroke: #000; stroke-width: 27px; fill: none\" />\n          <text transform=\"translate(63.42 112.58)\" font-size=\"35\" font-family=\"Verdana, sans-serif\">CSS</text>\n        </svg>\n      </div>\n\n      <div class=\"svg-wrapper\">\n        <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\">\n          <circle cx=\"50%\" cy=\"50%\" r=\"85\" style=\"stroke: #f2dac7; stroke-width: 27px; fill: #fff\" />\n          <circle class=\"skill-circle\" cx=\"50%\" cy=\"50%\" r=\"85\" style=\"stroke: #000; stroke-width: 27px; fill: none\" />\n          <text transform=\"translate(76.42 112.58)\" font-size=\"35\" font-family=\"Verdana, sans-serif\">PS</text>\n        </svg>\n      </div>\n\n      <div class=\"svg-wrapper\">\n        <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\">\n          <circle cx=\"50%\" cy=\"50%\" r=\"85\" style=\"stroke: #f2dac7; stroke-width: 27px; fill: #fff\" />\n          <circle class=\"skill-circle\" cx=\"50%\" cy=\"50%\" r=\"85\" style=\"stroke: #000; stroke-width: 27px; fill: none\" />\n          <text transform=\"translate(76.42 112.58)\" font-size=\"35\" font-family=\"Verdana, sans-serif\">AI</text>\n        </svg>\n      </div>\n\n      <div class=\"svg-wrapper\">\n        <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\">\n          <circle cx=\"50%\" cy=\"50%\" r=\"85\" style=\"stroke: #f2dac7; stroke-width: 27px; fill: #fff\" />\n          <circle class=\"skill-circle\" cx=\"50%\" cy=\"50%\" r=\"85\" style=\"stroke: #000; stroke-width: 27px; fill: none\" />\n          <text transform=\"translate(76.42 112.58)\" font-size=\"35\" font-family=\"Verdana, sans-serif\">Xd</text>\n        </svg>\n      </div>\n\n      <div class=\"svg-wrapper\">\n        <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\">\n          <circle cx=\"50%\" cy=\"50%\" r=\"85\" style=\"stroke: #f2dac7; stroke-width: 27px; fill: #fff\" />\n          <circle class=\"skill-circle\" cx=\"50%\" cy=\"50%\" r=\"85\" style=\"stroke: #000; stroke-width: 27px; fill: none\" />\n          <text transform=\"translate(76.42 112.58)\" font-size=\"35\" font-family=\"Verdana, sans-serif\">AE</text>\n        </svg>\n      </div>\n\n    </div>\n\n  </div>\n\n</section>"
 
 /***/ }),
 
@@ -620,6 +629,8 @@ module.exports = "    \n  <section id=\"skills\" class=\"skills\">\n\n      <div
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SkillsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__("./node_modules/lodash/lodash.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -630,18 +641,52 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var SkillsComponent = /** @class */ (function () {
-    function SkillsComponent() {
+    function SkillsComponent(el) {
+        this.el = el;
+        this.skillsValues = [0.30, 0.30, 0.65, 0.80, 0.55, 0.05];
+        this.triggerSkillsThrottled = Object(__WEBPACK_IMPORTED_MODULE_1_lodash__["throttle"])(this.triggerSkills, 250, { 'leading': true });
     }
-    SkillsComponent.prototype.ngOnInit = function () {
+    SkillsComponent.prototype.onScroll = function () {
+        this.triggerSkillsThrottled();
     };
+    SkillsComponent.prototype.ngOnInit = function () {
+        this.eles = this.el.nativeElement.querySelectorAll('.skill-circle');
+        this.wrapper = this.el.nativeElement.querySelectorAll('.svg-wrapper');
+        this.section = this.el.nativeElement.querySelector('.skills');
+        this.sectionTop = this.section.getBoundingClientRect().top + window.pageYOffset;
+        this.sectionBottom = this.section.getBoundingClientRect().bottom + window.pageYOffset;
+    };
+    SkillsComponent.prototype.triggerSkills = function () {
+        var _this = this;
+        if (window.pageYOffset + window.innerHeight > this.sectionTop && window.pageYOffset < this.sectionBottom) {
+            var length_1 = 533; // hardcoded because FF doesn't support getTotalLength on svg
+            // TODO: make svg's paths and do the animations with paths
+            // TODO: make window object injectable
+            this.eles.forEach(function (e, i) {
+                e.style.strokeDashoffset = length_1 - (length_1 * _this.skillsValues[i]) + 'px';
+            });
+        }
+        else {
+            this.eles.forEach(function (e, i) {
+                e.style.strokeDashoffset = 533 + 'px';
+            });
+        }
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["y" /* HostListener */])('window:scroll', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", void 0)
+    ], SkillsComponent.prototype, "onScroll", null);
     SkillsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-skills',
             template: __webpack_require__("./src/app/pages/skills/skills.component.html"),
             styles: [__webpack_require__("./src/app/pages/skills/skills.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */]])
     ], SkillsComponent);
     return SkillsComponent;
 }());
