@@ -1,0 +1,64 @@
+* {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%; 
+}
+
+body {
+    font-family: 'Grand Hotel', cursive;
+    color: #fff;
+    background-color: #000; 
+    box-sizing: border-box;
+    padding: 5rem;
+}
+
+.container {
+    background-image: url('../images/bear07.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 50rem;
+    height: 50rem;
+    margin: 0 auto;
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    position: relative;
+}
+
+h1 {
+    position: absolute;
+    font-size: 6rem;
+    text-align: center;
+    line-height: 1;
+    left: 50%;
+     transform: translate(-50%, 50%);    
+     background: url('../images/line.png');
+     background-repeat: repeat;
+     -webkit-background-clip: text;
+     background-clip: text;
+     color: transparent;
+     width: 100%;
+     -webkit-animation: snow 30s ease-in-out infinite;
+     animation: snow 30s ease-in-out infinite;
+    
+}
+
+ span {
+    display: block;
+} 
+
+@keyframes snow {
+    0% {
+    background-position: 0% 20%;
+    }
+
+    100% {
+    background-position: 100% 50%;
+    }
+}
