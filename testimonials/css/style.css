@@ -1,0 +1,119 @@
+*,
+*::after,
+*::before {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    /* font-size: 16px; */
+    line-height: 1.7;
+    color: #333;
+    padding: 3rem;
+    background-color: #333;
+    box-sizing: border-box;
+}
+
+.container {
+    background-image: url("../image/bg-image.jpg");
+    width: 80rem;
+    height: 59rem;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+    box-shadow: 0 3rem 6rem rgba(0,0,0,.8);
+    -webkit-filter: sepia(90%); 
+    filter: sepia(90%);  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .3s all ease-in;
+}
+
+.card {
+    font-size: 1.8rem;
+    font-weight: 300;
+    display: flex;
+    width: 42rem;
+    height: 47rem;
+    flex-direction: column;
+    box-shadow: 0 3rem 5rem rgba(0,0,0,.5);
+    border-radius: 1.5rem;
+}
+
+.card__image {
+    width: 15rem;
+    height: 15rem;
+    border-radius: 10rem;
+    object-fit: cover;
+    position: absolute;
+    top: -7rem;
+    border: 5px solid rgba(27, 92, 110, 0.788); 
+}
+
+
+.card__top {
+    width: 42rem;
+    height: 15rem;
+    -webkit-filter: blur(6px) sepia(90%); 
+    filter: blur(6px) sepia(90%);  
+     background-image:  url("../image/bg-image.jpg"); 
+     background-position: 69rem 55rem; 
+     border-top-left-radius: 1.5rem; 
+    border-top-right-radius: 1.5rem;
+    transition: all .2s ease-in; 
+}
+
+.card__bottom {
+    background-color: rgba(255,255,255,.9);
+    height: 33rem;
+    width: 42rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 1.5rem; 
+    border-bottom-right-radius: 1.5rem; 
+}
+
+.blockquote {
+    flex: 0 0 70%;
+    margin-top: 12rem;   
+    text-align: center;
+}
+
+.blockquote span {
+    display: block;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.card__bottom::before {
+    content: '\201C';
+    position: absolute;
+    font-size: 500%;
+    color: rgba(51, 51, 51, 0.781);
+    top: 4rem;
+    left: 19rem;
+    margin-top: 3rem;
+    font-family: sans-serif;
+}
+
+
+ .card__top:hover {
+    -webkit-filter: blur(3px) sepia(0%); 
+    filter: blur(3px) sepia(0%); 
+ }
+
+ .container:hover {
+    -webkit-filter: sepia(10%); 
+    filter: sepia(10%); 
+ }
