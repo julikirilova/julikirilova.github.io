@@ -1,3 +1,5 @@
 # julikirilova.github.io
 
-### [project 1 preview](https://julikirilova.github.io/work01.html)
+### [backgroundState preview](https://julikirilova.github.io/backgroundState.html)
+
+### [Xmas postcard preview](https://julikirilova.github.io/postcard.html)
