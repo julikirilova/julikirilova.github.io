@@ -1,0 +1,157 @@
+*,
+*::after,
+*::before {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%; 
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #777;
+    background-color: #BAF7F2;
+    box-sizing: border-box;
+    padding: 5rem;
+}
+
+.container {
+    background-image: url('../images/bg_1.png');
+    width: 70rem;
+    height: 50rem;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 0 3rem 5rem rgba(0,0,0,.4);
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    
+}
+
+.card {
+    width: 48rem;
+    height: 35rem;
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    box-shadow: 0 3rem 5rem rgba(0,0,0, .5);
+    /* transition: all .3s ease; */
+    
+}
+
+
+.card__input {
+    padding: 1.5rem 0rem;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-family: inherit;
+    color: inherit;
+    border-radius: 2px;
+    background-color: rgba(255,255,255, .5);
+    border: none;
+    border-bottom: 1px solid rgba(119, 119, 119, 0.767);
+    display: block;
+    width: 90%;
+    margin: auto;
+
+    transition: all .3s; 
+}
+
+.card__input:focus {
+    outline: none;
+    box-shadow: 0 .2rem 1.5rem rgba(0,0,0, .1); 
+    border-bottom: 3px solid #BAF7F2; 
+}
+
+.card__input:focus:invalid { 
+    border-bottom: 3px solid rgba(243, 6, 6, 0.801);
+}
+
+.form__label {
+    font-size: 1.2rem;
+    display: block;
+    margin-left: 2.5rem;
+    margin-top: .7rem; 
+    transition: all .4s; 
+  }
+
+.card__input:placeholder-shown + .form__label { 
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4rem);
+ }
+
+.card__title {
+    text-transform: uppercase;
+    font-size: 2rem;
+    font-weight: 400;
+    padding: 2rem;
+    letter-spacing: 1px;
+}
+
+
+span {
+    text-align: center;
+    font-size: 1.7rem;
+    font-weight: 400;
+    display: block;
+}
+
+.card__btn {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.btn {
+margin-top: 3.3rem;
+border: none;
+padding: 2.5rem;
+flex: 1 0 50%;
+font-family: inherit;
+font-size: 1.7rem;
+
+cursor: pointer;
+font-weight: 600;
+
+}
+
+.signin:focus,
+.register:focus {
+    outline: none;
+}
+
+.register {
+    color: rgba(45, 59, 85, 0.849);
+    background-color: #cdcfd6;
+    border-bottom-left-radius: 5px;
+}
+
+.signin {
+    background-color: #2D3B55;
+    color: #fff;
+    border-bottom-right-radius: 5px;
+}
+
+.register:hover {
+    background: #e0e1e5;
+
+}
+
+.signin:hover {
+    background: #394a6b;
+   
+} 
+
+/* .register:hover,
+.signin:hover {
+    opacity: .8;
+} */
