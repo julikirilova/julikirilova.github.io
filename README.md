@@ -10,3 +10,5 @@
 ### [Video landing page preview](https://julikirilova.github.io/landingPage.html) 
 
 ### [Sign up form preview](https://julikirilova.github.io/signup.html) 
+
+### [Testimonial card preview](https://julikirilova.github.io/testimonials.html) 
