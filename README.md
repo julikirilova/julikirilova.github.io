@@ -12,3 +12,5 @@
 ### [Sign up form preview](https://julikirilova.github.io/signup.html) 
 
 ### [Testimonial card preview](https://julikirilova.github.io/testimonials.html) 
+
+### [Sticky website preview](https://julikirilova.github.io/sticky.html) 
