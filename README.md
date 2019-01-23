@@ -16,3 +16,5 @@
 ### [Sticky website preview](https://julikirilova.github.io/sticky.html) 
 
 ### [Design portfolio website preview](https://julikirilova.github.io/portfolio.html) 
+
+### [Cafe espresso project preview](https://julikirilova.github.io/cafe.html) 
